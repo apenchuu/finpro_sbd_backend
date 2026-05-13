@@ -19,6 +19,7 @@ app.use(express.json());
 
 // Routes
 app.use('/user', require('./routes/userRoutes'));
+app.use('/freelancer-profile', require('./routes/freelancerProfileRoutes'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
