@@ -23,6 +23,7 @@ app.use('/freelancer-profile', require('./routes/freelancerProfileRoutes'));
 app.use('/freelancer-skill', require('./routes/freelancerSkillRoutes'));
 app.use('/projects', require('./routes/projectRoutes'));
 app.use('/bids', require('./routes/bidRoutes'));
+app.use('/contracts', require('./routes/contractRoutes'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
