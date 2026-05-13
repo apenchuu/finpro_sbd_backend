@@ -7,6 +7,8 @@ const { requireRole } = require('../middlewares/roleMiddleware');
 router.use(authenticateToken);
 router.use(requireRole('freelancer'));
 
+router.get('/', controller.getAllSkills);
+router.get('/:skillId', controller.getSkillById);
 router.post('/', controller.addSkill);
 router.delete('/:skillId', controller.deleteSkill);
 

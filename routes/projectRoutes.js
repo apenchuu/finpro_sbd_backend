@@ -7,6 +7,8 @@ const { requireRole } = require('../middlewares/roleMiddleware');
 router.use(authenticateToken);
 router.use(requireRole('client'));
 
+router.get('/', controller.getAllProjects);
+router.get('/:projectId', controller.getProjectById);
 router.post('/', controller.createProject);
 router.put('/:projectId', controller.updateProject);
 router.delete('/:projectId', controller.deleteProject);

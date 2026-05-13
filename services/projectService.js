@@ -49,8 +49,20 @@ async function deleteProjectForClient(projectId, clientId) {
   return result.rows[0] || null;
 }
 
+async function getProjectById(projectId) {
+  const result = await db.query('SELECT * FROM projects WHERE id = $1', [projectId]);
+  return result.rows[0] || null;
+}
+
+async function getAllProjects(clientId) {
+  const result = await db.query('SELECT * FROM projects WHERE client_id = $1', [clientId]);
+  return result.rows;
+}
+
 module.exports = {
   createProjectForClient,
   updateProjectForClient,
   deleteProjectForClient,
+  getProjectById,
+  getAllProjects,
 };

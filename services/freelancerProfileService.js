@@ -82,8 +82,20 @@ async function updateProfile(freelancerId, payload) {
   return result.rows[0] || null;
 }
 
+async function getProfileById(profileId) {
+  const result = await db.query('SELECT * FROM freelancer_profiles WHERE id = $1', [profileId]);
+  return result.rows[0] || null;
+}
+
+async function getAllProfiles() {
+  const result = await db.query('SELECT * FROM freelancer_profiles');
+  return result.rows;
+}
+
 module.exports = {
   createDefaultProfile,
   getByFreelancerId,
   updateProfile,
+  getProfileById,
+  getAllProfiles,
 };

@@ -42,4 +42,18 @@ async function removeSkillForUser(userId, skillId) {
   return result.rows[0] || null;
 }
 
-module.exports = { addSkillForUser, removeSkillForUser };
+async function getAllSkills(userId) {
+  const profileId = await getProfileIdByUserId(userId);
+  if (!profileId) return [];
+  const result = await db.query('SELECT fs.*, s.name FROM freelancer_skill fs JOIN skills s ON fs.skill_id = s.id WHERE fs.freelancer_id = $1', [profileId]);
+  return result.rows;
+}
+
+async function getSkillById(userId, skillId) {
+  const profileId = await getProfileIdByUserId(userId);
+  if (!profileId) return null;
+  const result = await db.query('SELECT fs.*, s.name FROM freelancer_skill fs JOIN skills s ON fs.skill_id = s.id WHERE fs.freelancer_id = $1 AND fs.skill_id = $2', [profileId, skillId]);
+  return result.rows[0] || null;
+}
+
+module.exports = { addSkillForUser, removeSkillForUser, getAllSkills, getSkillById };

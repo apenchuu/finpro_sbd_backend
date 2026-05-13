@@ -112,8 +112,42 @@ async function deleteProject(req, res) {
   }
 }
 
+async function getAllProjects(req, res) {
+  try {
+    const clientId = req.user.id;
+    const projects = await projectService.getAllProjects(clientId);
+    return res.json({ projects });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
+async function getProjectById(req, res) {
+  try {
+    const clientId = req.user.id;
+    const { projectId } = req.params;
+
+    const project = await projectService.getProjectById(projectId);
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    if (project.client_id !== clientId) {
+      return res.status(403).json({ error: 'Not authorized to view this project' });
+    }
+
+    return res.json({ project });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
 module.exports = {
   createProject,
   updateProject,
   deleteProject,
+  getAllProjects,
+  getProjectById,
 };

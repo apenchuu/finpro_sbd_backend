@@ -146,9 +146,15 @@ async function updateContractForClient(contractId, clientId, payload) {
   }
 }
 
+async function getAllContracts(clientId) {
+  const result = await db.query('SELECT * FROM contracts WHERE client_id = $1', [clientId]);
+  return result.rows;
+}
+
 module.exports = {
   createContractForClient,
   updateContractForClient,
   getContractById,
   getContractByIdAndClientId,
+  getAllContracts,
 };

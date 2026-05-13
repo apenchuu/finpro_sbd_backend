@@ -52,6 +52,18 @@ async function createReviewForClient(clientId, payload) {
   return result.rows[0];
 }
 
+async function getAllReviews(clientId) {
+  const result = await db.query('SELECT * FROM reviews WHERE client_id = $1', [clientId]);
+  return result.rows;
+}
+
+async function getReviewById(reviewId) {
+  const result = await db.query('SELECT * FROM reviews WHERE id = $1', [reviewId]);
+  return result.rows[0] || null;
+}
+
 module.exports = {
   createReviewForClient,
+  getAllReviews,
+  getReviewById,
 };

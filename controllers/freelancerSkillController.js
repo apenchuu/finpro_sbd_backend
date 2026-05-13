@@ -28,4 +28,28 @@ async function deleteSkill(req, res) {
   }
 }
 
-module.exports = { addSkill, deleteSkill };
+async function getAllSkills(req, res) {
+  try {
+    const userId = req.user.id;
+    const skills = await freelancerSkillService.getAllSkills(userId);
+    return res.json({ skills });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
+async function getSkillById(req, res) {
+  try {
+    const userId = req.user.id;
+    const { skillId } = req.params;
+    const skill = await freelancerSkillService.getSkillById(userId, skillId);
+    if (!skill) return res.status(404).json({ error: 'Skill not found for this user' });
+    return res.json({ skill });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
+module.exports = { addSkill, deleteSkill, getAllSkills, getSkillById };

@@ -68,7 +68,37 @@ async function updateContract(req, res) {
   }
 }
 
+async function getAllContracts(req, res) {
+  try {
+    const clientId = req.user.id;
+    const contracts = await contractService.getAllContracts(clientId);
+    return res.json({ contracts });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
+async function getContractById(req, res) {
+  try {
+    const clientId = req.user.id;
+    const { contractId } = req.params;
+
+    const contract = await contractService.getContractByIdAndClientId(contractId, clientId);
+    if (!contract) {
+      return res.status(404).json({ error: 'Contract not found or not owned by this client' });
+    }
+
+    return res.json({ contract });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
 module.exports = {
   createContract,
   updateContract,
+  getAllContracts,
+  getContractById,
 };

@@ -76,10 +76,16 @@ async function deleteBidForFreelancer(bidId, freelancerId) {
   return result.rows[0] || null;
 }
 
+async function getAllBids(freelancerId) {
+  const result = await db.query('SELECT * FROM bids WHERE freelancer_id = $1', [freelancerId]);
+  return result.rows;
+}
+
 module.exports = {
   createBidForFreelancer,
   updateBidForFreelancer,
   deleteBidForFreelancer,
   getBidById,
   getBidByIdAndFreelancerId,
+  getAllBids,
 };

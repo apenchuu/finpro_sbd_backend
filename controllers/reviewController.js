@@ -48,6 +48,39 @@ async function createReview(req, res) {
   }
 }
 
+async function getAllReviews(req, res) {
+  try {
+    const clientId = req.user.id;
+    const reviews = await reviewService.getAllReviews(clientId);
+    return res.json({ reviews });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
+async function getReviewById(req, res) {
+  try {
+    const clientId = req.user.id;
+    const { reviewId } = req.params;
+    const review = await reviewService.getReviewById(reviewId);
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+
+    if (review.client_id !== clientId) {
+      return res.status(403).json({ error: 'Not authorized to view this review' });
+    }
+
+    return res.json({ review });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
 module.exports = {
   createReview,
+  getAllReviews,
+  getReviewById,
 };

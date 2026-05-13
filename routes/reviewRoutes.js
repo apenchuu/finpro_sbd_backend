@@ -7,6 +7,8 @@ const { requireRole } = require('../middlewares/roleMiddleware');
 router.use(authenticateToken);
 router.use(requireRole('client'));
 
+router.get('/', controller.getAllReviews);
+router.get('/:reviewId', controller.getReviewById);
 router.post('/', controller.createReview);
 
 module.exports = router;

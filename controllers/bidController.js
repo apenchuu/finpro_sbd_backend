@@ -79,8 +79,38 @@ async function deleteBid(req, res) {
   }
 }
 
+async function getAllBids(req, res) {
+  try {
+    const freelancerId = req.user.id;
+    const bids = await bidService.getAllBids(freelancerId);
+    return res.json({ bids });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
+async function getBidById(req, res) {
+  try {
+    const freelancerId = req.user.id;
+    const { bidId } = req.params;
+
+    const bid = await bidService.getBidByIdAndFreelancerId(bidId, freelancerId);
+    if (!bid) {
+      return res.status(404).json({ error: 'Bid not found or not owned by this freelancer' });
+    }
+
+    return res.json({ bid });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
 module.exports = {
   createBid,
   updateBid,
   deleteBid,
+  getAllBids,
+  getBidById,
 };

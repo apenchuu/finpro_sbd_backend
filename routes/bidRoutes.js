@@ -7,6 +7,8 @@ const { requireRole } = require('../middlewares/roleMiddleware');
 router.use(authenticateToken);
 router.use(requireRole('freelancer'));
 
+router.get('/', controller.getAllBids);
+router.get('/:bidId', controller.getBidById);
 router.post('/', controller.createBid);
 router.put('/:bidId', controller.updateBid);
 router.delete('/:bidId', controller.deleteBid);
